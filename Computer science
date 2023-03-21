@@ -1,0 +1,39 @@
+#include <Servo.h>
+
+Servo myServo; // create a servo object
+
+const int LEFT_BUTTON_PIN = 2; // pin number of the left button
+const int RIGHT_BUTTON_PIN = 3; // pin number of the right button
+const int SERVO_PIN = 9; // pin number of the servo signal wire
+
+int currentPosition = 90; // current position of the servo
+
+void setup() {
+  pinMode(LEFT_BUTTON_PIN, INPUT_PULLUP); // set left button as input with internal pull-up resistor
+  pinMode(RIGHT_BUTTON_PIN, INPUT_PULLUP); // set right button as input with internal pull-up resistor
+  
+  myServo.attach(SERVO_PIN); // attach servo to pin 9
+  myServo.write(currentPosition); // move servo to the initial position
+}
+
+void loop() {
+  // check if the left button is pressed
+  if (digitalRead(LEFT_BUTTON_PIN) == LOW) {
+    currentPosition = constrain(currentPosition - 60, 0, 180); // move servo 60 degrees to the left
+    myServo.write(currentPosition); // update servo position
+    delay(5000); // wait 5 seconds
+    currentPosition = 90; // move servo back to its original position
+    myServo.write(currentPosition); // update servo position
+    delay(1000); // wait for 1 second
+  }
+  
+  // check if the right button is pressed
+  if (digitalRead(RIGHT_BUTTON_PIN) == LOW) {
+    currentPosition = constrain(currentPosition + 60, 0, 180); // move servo 60 degrees to the right
+    myServo.write(currentPosition); // update servo position
+    delay(5000); // wait 5 seconds
+    currentPosition = 90; // move servo back to its original position
+    myServo.write(currentPosition); // update servo position
+    delay(1000); // wait for 1 second
+  }
+}
